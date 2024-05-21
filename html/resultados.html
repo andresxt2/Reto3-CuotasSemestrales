@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/styles/footer.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="/js/broadcastHandler.js" defer></script>
       <script src="/js/cartService.js" defer></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         .logo{
     height: 60px;
@@ -103,102 +105,17 @@
 
 
     <main class = "flex-grow-1 mt-5">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-3 bg-light sidebar">
-                    <h4 class="text-center p-3">Menu Crud</h4>
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link active" onclick="showSection('list')">
-                                <i class="fas fa-list"></i> Listar Pagos
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" onclick="showSection('add')">
-                                <i class="fas fa-plus-circle"></i> Agregar Pagos
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" onclick="showSection('update')">
-                                <i class="fas fa-edit"></i> Actualizar Pagos
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" onclick="showSection('delete')">
-                                <i class="fas fa-trash-alt"></i> Eliminar Pagos
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-9">
-                    <div id="list" class="content-section">
-                        <h2>Listar Pagos</h2>
-                        <input type="text" id="searchId" class="form-control mb-2" placeholder="Buscar Pago por ID Estudiante">
-                        <button class="btn btn-primary" onclick="getPagoByEstudianteId()">Buscar o mostrar todos</button>
-                        <table class="table mt-2">
-                            <thead>
-                                <tr>
-                                    <th>id_pago</th>
-                                    <th>id_estudiante</th>
-                                    <th>nombre_completo</th>
-                                    <th>fecha_pago</th>
-                                    <th>saldo</th>
-                                    <th>semestre</th>
-                                    <th>estado</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pagoList"></tbody>
-                        </table>
-                        <nav>
-                            <ul class="pagination" id="pagination"></ul>
-                        </nav>
-                    </div>
-    
-                    <div id="add" class="content-section" style="display:none;">
-                        <h2>Agregar nuevo pago</h2>
-                        <select id="addIdEstudiante" class="form-control mb-2" required></select>
-                        <input type="date" id="addFechaPago" class="form-control mb-2" placeholder="Fecha de Pago" required>
-                        <input type="number" id="addSaldo" class="form-control mb-2" placeholder="Saldo" required>
-                        <select id="addSemestre" class="form-control mb-2" required>
-                            <option value="Semestre 2024-A">Semestre 2024-A</option>
-                            <option value="Semestre 2024-B">Semestre 2024-B</option>
-                            <option value="Semestre 2024-Verano-Idiomas">Semestre 2024-Verano-Idiomas</option>
-                            <option value="Semestre 2024-Invierno-Idiomas">Semestre 2024-Invierno-Idiomas</option>
-                        </select>
-                        <select id="addEstado" class="form-control mb-2" required>
-                            <option value="pagado">Pagado</option>
-                            <option value="pendiente">Pendiente</option>
-                        </select>
-                        <button onclick="addPago()" class="btn btn-success">Agregar</button>
-                    </div>
-    
-                    <div id="update" class="content-section" style="display:none;">
-                        <h2>Actualizar pago</h2>
-                        <input type="text" id="updateIdPago" class="form-control mb-2" placeholder="ID Pago" required>
-                        <select id="updateIdEstudiante" class="form-control mb-2" required></select>
-                        <input type="date" id="updateFechaPago" class="form-control mb-2" placeholder="Nueva Fecha de Pago" required>
-                        <input type="number" id="updateSaldo" class="form-control mb-2" placeholder="Nuevo Saldo" required>
-                        <select id="updateSemestre" class="form-control mb-2" required>
-                            <option value="Semestre 2024-A">Semestre 2024-A</option>
-                            <option value="Semestre 2024-B">Semestre 2024-B</option>
-                            <option value="Semestre 2024-Verano-Idiomas">Semestre 2024-Verano-Idiomas</option>
-                            <option value="Semestre 2024-Invierno-Idiomas">Semestre 2024-Invierno-Idiomas</option>
-                        </select>
-                        <select id="updateEstado" class="form-control mb-2" required>
-                            <option value="pagado">Pagado</option>
-                            <option value="pendiente">Pendiente</option>
-                        </select>
-                        <button onclick="updatePago()" class="btn btn-warning">Actualizar</button>
-                    </div>
-    
-                    <div id="delete" class="content-section" style="display:none;">
-                        <h2>Eliminar Pago</h2>
-                        <input type="text" id="deleteIdPago" class="form-control mb-2" placeholder="ID Pago" required>
-                        <button onclick="deletePago()" class="btn btn-danger">Eliminar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+        <section class="container">
+            <h2 class="text-center">Reporte de Estado de Pagos</h2>
+            <canvas id="estadoPagosChart"></canvas>
+        </section>
+       
+        <section class="container mt-5">
+            <h2 class="text-center">Reporte de Morosidad por Programa Académico</h2>
+            <canvas id="morosidadChart"></canvas>
+        </section>
+        
 
     </main>
 
@@ -229,8 +146,114 @@
         </footer>
 
 
+        <script>
+            $(document).ready(function() {
+                // Obtener datos para el gráfico de estado de pagos
+                $.ajax({
+                    url: 'http://localhost:5022/api/Resultados/ReporteEstadoPagos',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        // Transformar los datos en un formato adecuado para Chart.js
+                        const estados = data.map(item => item.estado);
+                        const montosTotales = data.map(item => item.Monto_Total);
+                        const totalPagos = data.map(item => item.Total_Pagos);
+            
+                        // Crear el gráfico con Chart.js
+                        const ctx = document.getElementById('estadoPagosChart').getContext('2d');
+                        const estadoPagosChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: estados,
+                                datasets: [
+                                    {
+                                        label: 'Monto Total',
+                                        data: montosTotales,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'Total Pagos',
+                                        data: totalPagos,
+                                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                        borderColor: 'rgba(255, 99, 132, 1)',
+                                        borderWidth: 1
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Error fetching the data:', error);
+                    }
+                });
+            
+                // Obtener datos para el gráfico de morosidad
+                $.ajax({
+                    url: 'http://localhost:5022/api/Resultados/ReporteMorosidad',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        // Transformar los datos en un formato adecuado para Chart.js
+                        const programas = data.map(item => item.programa_academico);
+                        const montosDeuda = data.map(item => item.Monto_Total_Deuda);
+            
+                        // Crear el gráfico con Chart.js
+                        const ctx2 = document.getElementById('morosidadChart').getContext('2d');
+                        const morosidadChart = new Chart(ctx2, {
+                            type: 'pie',
+                            data: {
+                                labels: programas,
+                                datasets: [{
+                                    label: 'Monto Total Deuda',
+                                    data: montosDeuda,
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.5)',
+                                        'rgba(54, 162, 235, 0.5)',
+                                        'rgba(255, 206, 86, 0.5)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'top',
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                const label = context.label || '';
+                                                const value = context.raw || 0;
+                                                return `${label}: $${value.toLocaleString()}`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Error fetching the data:', error);
+                    }
+                });
+            });
+            </script>
+            
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/pagos.js"></script>
 </body>
 </html>
-

@@ -5,7 +5,7 @@ function showSection(id) {
 
 var currentStudents = [];
 var currentPage = 1;
-var rowsPerPage = 5;
+var rowsPerPage = 100;
 
 function displayStudents(page) {
     var startIndex = (page - 1) * rowsPerPage;

@@ -75,7 +75,7 @@ function setupPagination(totalItems, currentPage) {
 
 function getBecas() {
     $.get('http://localhost:5022/api/Becas', function(data) {
-        currentBecas = data;
+        currentBecas = data.sort((a, b) => b.id_beca - a.id_beca); // Ordenar por id_beca de forma descendente
 
         if (data.length) {
             displayBecas(1);
@@ -85,7 +85,7 @@ function getBecas() {
         }
     });
 }
-
+/*
 function getBecaById() {
     var id = $('#searchId').val().trim();
     if (!id) {
@@ -94,7 +94,21 @@ function getBecaById() {
     }
 
     $.get('http://localhost:5022/api/Becas/' + id, function(data) {
-        currentBecas = [data];
+        currentBecas = [data].sort((a, b) => b.id_beca - a.id_beca); // Ordenar por id_beca de forma descendente
+        displayBecas(1);
+    }).fail(function() {
+        $('#errorMessage').show().text('Beca no encontrada');
+    });
+}*/
+
+function getBecaByEstudianteId() {
+    var id = $('#searchId').val().trim();
+    if (!id) {
+        getBecas();
+        return;
+    }
+    $.get('http://localhost:5022/api/Becas/Estudiante/' + id, function(data) {
+        currentBecas = data.sort((a, b) => b.id_beca - a.id_beca); // Ordenar por id_beca de forma descendente
         displayBecas(1);
     }).fail(function() {
         $('#errorMessage').show().text('Beca no encontrada');

@@ -17,7 +17,7 @@ function crearTarjetasProductos() {
             <section class="container border-bottom border-dark">
                 <div class="row justify-content-center align-items-center mb-3 mt-3">
                     <div class="col-12 col-md-6 text-center">
-                        <img src="${producto.foto}" alt="" class="imagen">
+                        <img src="" alt="" class="imagen">
                     </div>
                     <div class="col-12 col-md-6 text-center mb-3">
                         <span class="text-center fw-bold p-5">${producto.nombre}</span>

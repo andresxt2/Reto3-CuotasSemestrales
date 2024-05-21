@@ -10,7 +10,7 @@ function showSection(id) {
 var currentMorosidades = [];
 var currentEstudiantes = [];
 var currentPage = 1;
-var rowsPerPage = 5;
+var rowsPerPage = 100;
 
 function loadEstudiantes(section) {
     $.get('http://localhost:5022/api/Estudiantes', function(data) {
@@ -75,7 +75,7 @@ function setupPagination(totalItems, currentPage) {
 
 function getMorosidades() {
     $.get('http://localhost:5022/api/Morosidades', function(data) {
-        currentMorosidades = data;
+        currentMorosidades = data.sort((a, b) => b.id_morosidad - a.id_morosidad); // Ordenar por id_morosidad
 
         if (data.length) {
             displayMorosidades(1);
@@ -85,7 +85,7 @@ function getMorosidades() {
         }
     });
 }
-
+/*
 function getMorosidadById() {
     var id = $('#searchId').val().trim();
     if (!id) {
@@ -94,7 +94,20 @@ function getMorosidadById() {
     }
 
     $.get('http://localhost:5022/api/Morosidades/' + id, function(data) {
-        currentMorosidades = [data];
+        currentMorosidades = [data].sort((a, b) => a.id_morosidad - b.id_morosidad); // Ordenar por id_morosidad
+        displayMorosidades(1);
+    }).fail(function() {
+        $('#errorMessage').show().text('Morosidad no encontrada');
+    });
+}*/
+function getMorosidadByEstudianteId() {
+    var id = $('#searchId').val().trim();
+    if (!id) {
+        getMorosidades();
+        return;
+    }
+    $.get('http://localhost:5022/api/Morosidades/Estudiante/' + id, function(data) {
+        currentMorosidades = data.sort((a, b) => b.id_morosidad - a.id_morosidad); // Ordenar por id_morosidad de forma descendente
         displayMorosidades(1);
     }).fail(function() {
         $('#errorMessage').show().text('Morosidad no encontrada');

@@ -89,6 +89,9 @@
                                     <li><a class="dropdown-item" href="morosidades.html">Morosidades</a></li>
                                 </ul>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="resultados.html">Resultados</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -131,7 +134,7 @@
                     <div id="list" class="content-section">
                         <h2>Listar Becas</h2>
                         <input type="text" id="searchId" class="form-control mb-2" placeholder="Buscar Beca por ID Estudiante">
-                        <button class="btn btn-primary" onclick="getBecaById()">Buscar o mostrar todos</button>
+                        <button class="btn btn-primary" onclick="getBecaByEstudianteId()">Buscar o mostrar todos</button>
                         <table class="table mt-2">
                             <thead>
                                 <tr>
@@ -160,10 +163,8 @@
                         </select>
                         <input type="number" id="addMonto" class="form-control mb-2" placeholder="Monto" required>
                         <select id="addSemestre" class="form-control mb-2" required>
-                            <option value="Semestre 2024-A">Semestre 2024-A</option>
-                            <option value="Semestre 2024-B">Semestre 2024-B</option>
-                            <option value="Semestre 2024-Verano-Idiomas">Semestre 2024-Verano-Idiomas</option>
-                            <option value="Semestre 2024-Invierno-Idiomas">Semestre 2024-Invierno-Idiomas</option>
+                            <option value="2024-A">Semestre 2024-A</option>
+                            <option value="2024-B">Semestre 2024-B</option>
                         </select>
                         <button onclick="addBeca()" class="btn btn-success">Agregar</button>
                     </div>
@@ -179,10 +180,8 @@
                         </select>
                         <input type="number" id="updateMonto" class="form-control mb-2" placeholder="Nuevo Monto" required>
                         <select id="updateSemestre" class="form-control mb-2" required>
-                            <option value="Semestre 2024-A">Semestre 2024-A</option>
-                            <option value="Semestre 2024-B">Semestre 2024-B</option>
-                            <option value="Semestre 2024-Verano-Idiomas">Semestre 2024-Verano-Idiomas</option>
-                            <option value="Semestre 2024-Invierno-Idiomas">Semestre 2024-Invierno-Idiomas</option>
+                            <option value="2024-A">Semestre 2024-A</option>
+                            <option value="2024-B">Semestre 2024-B</option>
                         </select>
                         <button onclick="updateBeca()" class="btn btn-warning">Actualizar</button>
                     </div>

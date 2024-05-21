@@ -77,7 +77,7 @@ function setupPagination(totalItems, currentPage) {
 
 function getPagos() {
     $.get('http://localhost:5022/api/Pagos', function(data) {
-        currentPagos = data;
+        currentPagos = data.sort((a, b) => b.id_pago - a.id_pago); // Ordenar por id_pago de forma descendente
 
         if (data.length) {
             displayPagos(1);
@@ -87,7 +87,7 @@ function getPagos() {
         }
     });
 }
-
+/*
 function getPagoById() {
     var id = $('#searchId').val().trim();
     if (!id) {
@@ -96,7 +96,21 @@ function getPagoById() {
     }
 
     $.get('http://localhost:5022/api/Pagos/' + id, function(data) {
-        currentPagos = [data];
+        currentPagos = [data].sort((a, b) => b.id_pago - a.id_pago); // Ordenar por id_pago de forma descendente
+        displayPagos(1);
+    }).fail(function() {
+        $('#errorMessage').show().text('Pago no encontrado');
+    });
+}*/
+
+function getPagoByEstudianteId() {
+    var id = $('#searchId').val().trim();
+    if (!id) {
+        getPagos();
+        return;
+    }
+    $.get('http://localhost:5022/api/Pagos/Estudiante/' + id, function(data) {
+        currentPagos = data.sort((a, b) => b.id_pago - a.id_pago); // Ordenar por id_pago de forma descendente
         displayPagos(1);
     }).fail(function() {
         $('#errorMessage').show().text('Pago no encontrado');

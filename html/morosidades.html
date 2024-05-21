@@ -89,6 +89,9 @@
                                     <li><a class="dropdown-item" href="morosidades.html">Morosidades</a></li>
                                 </ul>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="resultados.html">Resultados</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -131,7 +134,7 @@
                     <div id="list" class="content-section">
                         <h2>Listar Morosidades</h2>
                         <input type="text" id="searchId" class="form-control mb-2" placeholder="Buscar Morosidad por ID Estudiante">
-                        <button class="btn btn-primary" onclick="getMorosidadById()">Buscar o mostrar todos</button>
+                        <button class="btn btn-primary" onclick="getMorosidadByEstudianteId()">Buscar o mostrar todos</button>
                         <table class="table mt-2">
                             <thead>
                                 <tr>
@@ -154,10 +157,8 @@
                         <h2>Agregar nueva morosidad</h2>
                         <select id="addIdEstudiante" class="form-control mb-2" required></select>
                         <select id="addSemestre" class="form-control mb-2" required>
-                            <option value="Semestre 2024-A">Semestre 2024-A</option>
-                            <option value="Semestre 2024-B">Semestre 2024-B</option>
-                            <option value="Semestre 2024-Verano-Idiomas">Semestre 2024-Verano-Idiomas</option>
-                            <option value="Semestre 2024-Invierno-Idiomas">Semestre 2024-Invierno-Idiomas</option>
+                            <option value="2024-A">Semestre 2024-A</option>
+                            <option value="2024-B">Semestre 2024-B</option>
                         </select>
                         <input type="number" id="addDiasRetraso" class="form-control mb-2" placeholder="Días de Retraso" required>
                         <input type="number" id="addMontoDebido" class="form-control mb-2" placeholder="Monto Debido" required>
@@ -169,10 +170,8 @@
                         <input type="text" id="updateIdMorosidad" class="form-control mb-2" placeholder="ID Morosidad" required>
                         <select id="updateIdEstudiante" class="form-control mb-2" required></select>
                         <select id="updateSemestre" class="form-control mb-2" required>
-                            <option value="Semestre 2024-A">Semestre 2024-A</option>
-                            <option value="Semestre 2024-B">Semestre 2024-B</option>
-                            <option value="Semestre 2024-Verano-Idiomas">Semestre 2024-Verano-Idiomas</option>
-                            <option value="Semestre 2024-Invierno-Idiomas">Semestre 2024-Invierno-Idiomas</option>
+                            <option value="2024-A">Semestre 2024-A</option>
+                            <option value="2024-B">Semestre 2024-B</option>
                         </select>
                         <input type="number" id="updateDiasRetraso" class="form-control mb-2" placeholder="Nuevo Días de Retraso" required>
                         <input type="number" id="updateMontoDebido" class="form-control mb-2" placeholder="Nuevo Monto Debido" required>
