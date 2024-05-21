@@ -1,0 +1,12 @@
+/* Footer.css */
+.footer-bg {
+    background-color: #151111;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+footer {
+    padding-left: 0;
+    padding-right: 0;
+}

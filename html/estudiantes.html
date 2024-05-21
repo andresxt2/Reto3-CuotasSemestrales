@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="/js/broadcastHandler.js" defer></script>
+      <script src="/js/cartService.js" defer></script>
+    <style>
+        .logo{
+    height: 60px;
+    padding: 10px;
+    }
+
+    
+.carrito{
+    position: absolute;
+    right: 90px;
+    top: 25px;
+    max-width: 35px;
+    width: 100%;
+    }
+    
+    .carrito:hover {
+    border: 1px solid white;
+    border-radius: 100%;
+    background-color: rgba(32, 31, 31, 0.9); /* Fondo blanco con transparencia */
+    }
+    
+    .counter{
+    font-size: 15px;
+    position: absolute;
+    right: 75px;
+    top: 25px;
+    background-color: #ee6130;
+    border-radius: 80%;
+    display: inline-block;
+    width: 20px;
+    aspect-ratio: 1;
+    text-align: center;
+    position: absolute;
+    
+    }
+    
+        .bg-black { background-color: #000; } /* Asegúrate de que el negro es el color deseado para el fondo */
+    </style>
+</head>
+
+<body class = "d-flex flex-column min-vh-100">
+    <header class="mb-5">
+        <nav class="navbar navbar-expand-md navbar-dark bg-black fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="https://andrestayupanta.neocities.org/imagesMvc/images.jpg" alt="Logo" class="logo" />
+                </a>
+                <a class="navbar-brand" href="cart.html">
+                    <img src="https://andrestayupanta.neocities.org/proyecto/imagenes/icons8-carrito-de-compras-64.png" alt="carrito" class="carrito" />
+                    <span class="counter" id="nro-productos">0</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas bg-black offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Bullworth</h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/index.html">Inicio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="secciones.html">Secciones</a>
+                            </li>
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    CRUD
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="estudiantes.html">Estudiantes</a></li>
+                                    <li><a class="dropdown-item" href="pagos.html">Pagos</a></li>
+                                    <li><a class="dropdown-item" href="becas.html">Becas</a></li>
+                                    <li><a class="dropdown-item" href="morosidades.html">Morosidades</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+
+
+    <main class = "flex-grow-1 mt-5">
+        
+        <!-- CONTENT-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 bg-light sidebar">
+                    <h4 class="text-center p-3">Menu Crud</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active" onclick="showSection('list')">
+                                <i class="fas fa-list"></i> Listar Estudiantes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" onclick="showSection('add')">
+                                <i class="fas fa-plus-circle"></i> Agregar Estudiantes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" onclick="showSection('update')">
+                                <i class="fas fa-edit"></i> Actualizar Estudiantes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" onclick="showSection('delete')">
+                                <i class="fas fa-trash-alt"></i> Eliminar Estudiantes
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <div id="list" class="content-section">
+                        <h2>Listar Estudiantes</h2>
+                        <input type="text" id="searchId" class="form-control mb-2" placeholder="Buscar Estudiante por ID">
+                        <button class="btn btn-primary" onclick="getStudentById()">Buscar o mostrar todos</button>
+                        <table class="table mt-2">
+                            <thead>
+                                <tr>
+                                    <th>id_estudiante</th>
+                                    <th>nombres</th>
+                                    <th>apellidos</th>
+                                    <th>correo_electronico</th>
+                                    <th>programa_academico</th>
+                                    <th>estado_matricula</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentList"></tbody>
+                        </table>
+                        <nav>
+                            <ul class="pagination" id="pagination"></ul>
+                        </nav>
+                    </div>
+
+                    <div id="add" class="content-section" style="display:none;">
+                        <h2>Agregar nuevo estudiante</h2>
+                        <input type="text" id="addIdEstudiante" class="form-control mb-2" placeholder="ID Estudiante" required>
+                        <input type="text" id="addNombres" class="form-control mb-2" placeholder="Nombres" required>
+                        <input type="text" id="addApellidos" class="form-control mb-2" placeholder="Apellidos" required>
+                        <input type="email" id="addCorreoElectronico" class="form-control mb-2" placeholder="Correo Electrónico" required>
+                        <input type="text" id="addProgramaAcademico" class="form-control mb-2" placeholder="Programa Académico" required>
+                        <input type="text" id="addEstadoMatricula" class="form-control mb-2" placeholder="Estado de Matrícula" required>
+                        <button onclick="addStudent()" class="btn btn-success">Agregar</button>
+                    </div>
+
+                    <div id="update" class="content-section" style="display:none;">
+                        <h2>Actualizar estudiante</h2>
+                        <input type="text" id="updateId" class="form-control mb-2" placeholder="ID Estudiante" required>
+                        <input type="text" id="updateNombres" class="form-control mb-2" placeholder="Nuevos Nombres" required>
+                        <input type="text" id="updateApellidos" class="form-control mb-2" placeholder="Nuevos Apellidos" required>
+                        <input type="email" id="updateCorreoElectronico" class="form-control mb-2" placeholder="Nuevo Correo Electrónico" required>
+                        <input type="text" id="updateProgramaAcademico" class="form-control mb-2" placeholder="Nuevo Programa Académico" required>
+                        <input type="text" id="updateEstadoMatricula" class="form-control mb-2" placeholder="Nuevo Estado de Matrícula" required>
+                        <button onclick="updateStudent()" class="btn btn-warning">Actualizar</button>
+                    </div>
+
+                    <div id="delete" class="content-section" style="display:none;">
+                        <h2>Eliminar Estudiante</h2>
+                        <input type="text" id="deleteId" class="form-control mb-2" placeholder="ID Estudiante" required>
+                        <button onclick="deleteStudent()" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+        <footer class="text-white pt-4 pb-2 footer-bg">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-12 mb-3">
+                        <img src="https://andrestayupanta.neocities.org/imagesMvc/images.jpg" alt="Bullworth College Logo" class="img-fluid mb-2" />
+                        <p>Comprometidos con la formación de líderes y profesionales que marcarán la diferencia en el mundo.</p>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-12 mb-3">
+                        <h5 class="fw-bold">Contáctanos</h5>
+                        <p>Av. 12 de Octubre y Roca, Quito, Ecuador</p> 
+                        <p>+593 2 123 4567</p>
+                        <p>secretaria@bullworth.edu.ec</p>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-12">
+                        <h5 class="fw-bold">Facultades</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-white">Facultad de Ciencias</a></li>
+                            <li><a href="#" class="text-white">Facultad de Derecho</a></li>
+                            <li><a href="#" class="text-white">Facultad de Ingeniería</a></li>
+                            <li><a href="#" class="text-white">Facultad de Artes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/estudiantes.js"></script>
+</body>
+</html>
