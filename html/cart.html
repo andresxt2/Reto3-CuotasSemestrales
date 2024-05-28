@@ -154,7 +154,7 @@
                 if (resultado) {
                     // Verificar si el estudiante existe en la base de datos
                     $.ajax({
-                        url: `http://localhost:5022/api/Estudiantes/${cedula}`,
+                        url: `https://172.16.7.10:5022/api/Estudiantes/${cedula}`,
                         method: 'GET',
                         success: function(estudiante) {
                             // Verificar si el estudiante no es null
@@ -184,7 +184,7 @@
 
                                     // Enviar los datos del pago a la API de pagos usando AJAX
                                     $.ajax({
-                                        url: 'http://localhost:5022/api/Pagos',
+                                        url: 'https://172.16.7.10:5022/api/Pagos',
                                         method: 'POST',
                                         contentType: 'application/json',
                                         data: JSON.stringify(pago),

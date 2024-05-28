@@ -5,7 +5,7 @@ function showSection(id) {
 
 var currentStudents = [];
 var currentPage = 1;
-var rowsPerPage = 100;
+var rowsPerPage = 20;
 
 function displayStudents(page) {
     var startIndex = (page - 1) * rowsPerPage;
@@ -23,6 +23,10 @@ function displayStudents(page) {
                 <td>${student.correo_electronico}</td>
                 <td>${student.programa_academico}</td>
                 <td>${student.estado_matricula}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="loadStudentForUpdate('${student.id_estudiante}')">Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="loadStudentForDelete('${student.id_estudiante}')">Eliminar</button>
+                </td>
             </tr>
         `);
     });
@@ -61,7 +65,7 @@ function getStudentById() {
         return;
     }
 
-    $.get('http://localhost:5022/api/Estudiantes/' + id, function(data) {
+    $.get('http://localhost:5022/api/Estudiantes/' + encodeURIComponent(id), function(data) {
         currentStudents = [data];
         displayStudents(1);
     }).fail(function() {
@@ -95,6 +99,24 @@ function addStudent() {
     });
 }
 
+function loadStudentForUpdate(id) {
+    $.get('http://localhost:5022/api/Estudiantes/' + encodeURIComponent(id), function(data) {
+        if (data) {
+            $('#updateId').val(data.id_estudiante);
+            $('#updateNombres').val(data.nombres);
+            $('#updateApellidos').val(data.apellidos);
+            $('#updateCorreoElectronico').val(data.correo_electronico);
+            $('#updateProgramaAcademico').val(data.programa_academico);
+            $('#updateEstadoMatricula').val(data.estado_matricula);
+            showSection('update');
+        } else {
+            alert('Estudiante no encontrado');
+        }
+    }).fail(function() {
+        alert('Error al obtener los datos del estudiante');
+    });
+}
+
 function updateStudent() {
     var id_estudiante = $('#updateId').val().trim();
     var nombres = $('#updateNombres').val().trim();
@@ -109,7 +131,7 @@ function updateStudent() {
     }
 
     $.ajax({
-        url: 'http://localhost:5022/api/Estudiantes/' + id_estudiante,
+        url: 'http://localhost:5022/api/Estudiantes/' + encodeURIComponent(id_estudiante),
         method: 'PUT',
         data: {
             id_estudiante: id_estudiante,
@@ -122,8 +144,16 @@ function updateStudent() {
         success: function(result) {
             alert('Estudiante actualizado con éxito');
             getStudents();
+        },
+        error: function() {
+            alert('Error al actualizar el estudiante');
         }
     });
+}
+
+function loadStudentForDelete(id) {
+    $('#deleteId').val(id);
+    showSection('delete');
 }
 
 function deleteStudent() {
@@ -135,11 +165,14 @@ function deleteStudent() {
     }
 
     $.ajax({
-        url: 'http://localhost:5022/api/Estudiantes/' + id_estudiante,
+        url: 'http://localhost:5022/api/Estudiantes/' + encodeURIComponent(id_estudiante),
         method: 'DELETE',
         success: function(result) {
             alert('Estudiante eliminado con éxito');
             getStudents();
+        },
+        error: function() {
+            alert('Error al eliminar el estudiante');
         }
     });
 }

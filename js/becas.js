@@ -10,7 +10,7 @@ function showSection(id) {
 var currentBecas = [];
 var currentEstudiantes = [];
 var currentPage = 1;
-var rowsPerPage = 5;
+var rowsPerPage = 20;
 
 function loadEstudiantes(section) {
     $.get('http://localhost:5022/api/Estudiantes', function(data) {
@@ -43,6 +43,10 @@ function displayBecas(page) {
                     <td>${beca.tipo_beca}</td>
                     <td>${beca.monto}</td>
                     <td>${beca.semestre}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="loadBecaForUpdate(${beca.id_beca})">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="loadBecaForDelete(${beca.id_beca})">Eliminar</button>
+                    </td>
                 </tr>
             `);
         }).fail(function() {
@@ -54,6 +58,10 @@ function displayBecas(page) {
                     <td>${beca.tipo_beca}</td>
                     <td>${beca.monto}</td>
                     <td>${beca.semestre}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="loadBecaForUpdate(${beca.id_beca})">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="loadBecaForDelete(${beca.id_beca})">Eliminar</button>
+                    </td>
                 </tr>
             `);
         });
@@ -85,21 +93,6 @@ function getBecas() {
         }
     });
 }
-/*
-function getBecaById() {
-    var id = $('#searchId').val().trim();
-    if (!id) {
-        getBecas();
-        return;
-    }
-
-    $.get('http://localhost:5022/api/Becas/' + id, function(data) {
-        currentBecas = [data].sort((a, b) => b.id_beca - a.id_beca); // Ordenar por id_beca de forma descendente
-        displayBecas(1);
-    }).fail(function() {
-        $('#errorMessage').show().text('Beca no encontrada');
-    });
-}*/
 
 function getBecaByEstudianteId() {
     var id = $('#searchId').val().trim();
@@ -137,6 +130,23 @@ function addBeca() {
     });
 }
 
+function loadBecaForUpdate(id) {
+    $.get('http://localhost:5022/api/Becas/' + id, function(data) {
+        if (data) {
+            $('#updateIdBeca').val(data.id_beca);
+            $('#updateIdEstudiante').val(data.id_estudiante);
+            $('#updateTipoBeca').val(data.tipo_beca);
+            $('#updateMonto').val(data.monto);
+            $('#updateSemestre').val(data.semestre);
+            showSection('update');
+        } else {
+            alert('Beca no encontrada');
+        }
+    }).fail(function() {
+        alert('Error al obtener los datos de la beca');
+    });
+}
+
 function updateBeca() {
     var id_beca = $('#updateIdBeca').val().trim();
     var id_estudiante = $('#updateIdEstudiante').val();
@@ -162,8 +172,16 @@ function updateBeca() {
         success: function(result) {
             alert('Beca actualizada con éxito');
             getBecas();
+        },
+        error: function() {
+            alert('Error al actualizar la beca');
         }
     });
+}
+
+function loadBecaForDelete(id) {
+    $('#deleteIdBeca').val(id);
+    showSection('delete');
 }
 
 function deleteBeca() {
@@ -180,6 +198,9 @@ function deleteBeca() {
         success: function(result) {
             alert('Beca eliminada con éxito');
             getBecas();
+        },
+        error: function() {
+            alert('Error al eliminar la beca');
         }
     });
 }

@@ -10,7 +10,7 @@ function showSection(id) {
 var currentPagos = [];
 var currentEstudiantes = [];
 var currentPage = 1;
-var rowsPerPage = 5;
+var rowsPerPage = 20;
 
 function loadEstudiantes(section) {
     $.get('http://localhost:5022/api/Estudiantes', function(data) {
@@ -44,6 +44,10 @@ function displayPagos(page) {
                     <td>${pago.saldo}</td>
                     <td>${pago.semestre}</td>
                     <td>${pago.estado}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="loadPagoForUpdate(${pago.id_pago})">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="loadPagoForDelete(${pago.id_pago})">Eliminar</button>
+                    </td>
                 </tr>
             `);
         }).fail(function() {
@@ -56,6 +60,10 @@ function displayPagos(page) {
                     <td>${pago.saldo}</td>
                     <td>${pago.semestre}</td>
                     <td>${pago.estado}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="loadPagoForUpdate(${pago.id_pago})">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="loadPagoForDelete(${pago.id_pago})">Eliminar</button>
+                    </td>
                 </tr>
             `);
         });
@@ -87,21 +95,6 @@ function getPagos() {
         }
     });
 }
-/*
-function getPagoById() {
-    var id = $('#searchId').val().trim();
-    if (!id) {
-        getPagos();
-        return;
-    }
-
-    $.get('http://localhost:5022/api/Pagos/' + id, function(data) {
-        currentPagos = [data].sort((a, b) => b.id_pago - a.id_pago); // Ordenar por id_pago de forma descendente
-        displayPagos(1);
-    }).fail(function() {
-        $('#errorMessage').show().text('Pago no encontrado');
-    });
-}*/
 
 function getPagoByEstudianteId() {
     var id = $('#searchId').val().trim();
@@ -109,7 +102,7 @@ function getPagoByEstudianteId() {
         getPagos();
         return;
     }
-    $.get('http://localhost:5022/api/Pagos/Estudiante/' + id, function(data) {
+    $.get('http://localhost:5022/api/Pagos/Estudiante/' + encodeURIComponent(id), function(data) {
         currentPagos = data.sort((a, b) => b.id_pago - a.id_pago); // Ordenar por id_pago de forma descendente
         displayPagos(1);
     }).fail(function() {
@@ -141,6 +134,24 @@ function addPago() {
     });
 }
 
+function loadPagoForUpdate(id) {
+    $.get('http://localhost:5022/api/Pagos/' + id, function(data) {
+        if (data) {
+            $('#updateIdPago').val(data.id_pago);
+            $('#updateIdEstudiante').val(data.id_estudiante);
+            $('#updateFechaPago').val(data.fecha_pago);
+            $('#updateSaldo').val(data.saldo);
+            $('#updateSemestre').val(data.semestre);
+            $('#updateEstado').val(data.estado);
+            showSection('update');
+        } else {
+            alert('Pago no encontrado');
+        }
+    }).fail(function() {
+        alert('Error al obtener los datos del pago');
+    });
+}
+
 function updatePago() {
     var id_pago = $('#updateIdPago').val().trim();
     var id_estudiante = $('#updateIdEstudiante').val();
@@ -168,8 +179,16 @@ function updatePago() {
         success: function(result) {
             alert('Pago actualizado con éxito');
             getPagos();
+        },
+        error: function() {
+            alert('Error al actualizar el pago');
         }
     });
+}
+
+function loadPagoForDelete(id) {
+    $('#deleteIdPago').val(id);
+    showSection('delete');
 }
 
 function deletePago() {
@@ -186,6 +205,9 @@ function deletePago() {
         success: function(result) {
             alert('Pago eliminado con éxito');
             getPagos();
+        },
+        error: function() {
+            alert('Error al eliminar el pago');
         }
     });
 }

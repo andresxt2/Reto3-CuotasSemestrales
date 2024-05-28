@@ -10,7 +10,7 @@ function showSection(id) {
 var currentMorosidades = [];
 var currentEstudiantes = [];
 var currentPage = 1;
-var rowsPerPage = 100;
+var rowsPerPage = 20;
 
 function loadEstudiantes(section) {
     $.get('http://localhost:5022/api/Estudiantes', function(data) {
@@ -43,6 +43,10 @@ function displayMorosidades(page) {
                     <td>${morosidad.semestre}</td>
                     <td>${morosidad.dias_retraso}</td>
                     <td>${morosidad.monto_debido}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="loadMorosidadForUpdate(${morosidad.id_morosidad})">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="loadMorosidadForDelete(${morosidad.id_morosidad})">Eliminar</button>
+                    </td>
                 </tr>
             `);
         }).fail(function() {
@@ -54,6 +58,10 @@ function displayMorosidades(page) {
                     <td>${morosidad.semestre}</td>
                     <td>${morosidad.dias_retraso}</td>
                     <td>${morosidad.monto_debido}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="loadMorosidadForUpdate(${morosidad.id_morosidad})">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="loadMorosidadForDelete(${morosidad.id_morosidad})">Eliminar</button>
+                    </td>
                 </tr>
             `);
         });
@@ -85,28 +93,14 @@ function getMorosidades() {
         }
     });
 }
-/*
-function getMorosidadById() {
-    var id = $('#searchId').val().trim();
-    if (!id) {
-        getMorosidades();
-        return;
-    }
 
-    $.get('http://localhost:5022/api/Morosidades/' + id, function(data) {
-        currentMorosidades = [data].sort((a, b) => a.id_morosidad - b.id_morosidad); // Ordenar por id_morosidad
-        displayMorosidades(1);
-    }).fail(function() {
-        $('#errorMessage').show().text('Morosidad no encontrada');
-    });
-}*/
 function getMorosidadByEstudianteId() {
     var id = $('#searchId').val().trim();
     if (!id) {
         getMorosidades();
         return;
     }
-    $.get('http://localhost:5022/api/Morosidades/Estudiante/' + id, function(data) {
+    $.get('http://localhost:5022/api/Morosidades/Estudiante/' + encodeURIComponent(id), function(data) {
         currentMorosidades = data.sort((a, b) => b.id_morosidad - a.id_morosidad); // Ordenar por id_morosidad de forma descendente
         displayMorosidades(1);
     }).fail(function() {
@@ -133,6 +127,23 @@ function addMorosidad() {
     }, function(data) {
         alert('Morosidad agregada con éxito');
         getMorosidades();
+    });
+}
+
+function loadMorosidadForUpdate(id) {
+    $.get('http://localhost:5022/api/Morosidades/' + id, function(data) {
+        if (data) {
+            $('#updateIdMorosidad').val(data.id_morosidad);
+            $('#updateIdEstudiante').val(data.id_estudiante);
+            $('#updateSemestre').val(data.semestre);
+            $('#updateDiasRetraso').val(data.dias_retraso);
+            $('#updateMontoDebido').val(data.monto_debido);
+            showSection('update');
+        } else {
+            alert('Morosidad no encontrada');
+        }
+    }).fail(function() {
+        alert('Error al obtener los datos de la morosidad');
     });
 }
 
@@ -163,6 +174,11 @@ function updateMorosidad() {
             getMorosidades();
         }
     });
+}
+
+function loadMorosidadForDelete(id) {
+    $('#deleteIdMorosidad').val(id);
+    showSection('delete');
 }
 
 function deleteMorosidad() {
