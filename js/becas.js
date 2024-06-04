@@ -13,7 +13,7 @@ var currentPage = 1;
 var rowsPerPage = 20;
 
 function loadEstudiantes(section) {
-    $.get('http://localhost:5022/api/Estudiantes', function(data) {
+    $.get('https://172.16.7.10:5022/api/Estudiantes', function(data) {
         currentEstudiantes = data;
         var select = section === 'add' ? $('#addIdEstudiante') : $('#updateIdEstudiante');
         select.empty();
@@ -32,7 +32,7 @@ function displayBecas(page) {
 
     paginatedItems.forEach(function(beca) {
         // Hacer la llamada a la API para obtener el nombre del estudiante
-        $.get('http://localhost:5022/api/Estudiantes/' + beca.id_estudiante, function(estudiante) {
+        $.get('https://172.16.7.10:5022/api/Estudiantes/' + beca.id_estudiante, function(estudiante) {
             var nombreCompleto = estudiante.nombres + ' ' + estudiante.apellidos;
 
             $('#becaList').append(`
@@ -82,7 +82,7 @@ function setupPagination(totalItems, currentPage) {
 }
 
 function getBecas() {
-    $.get('http://localhost:5022/api/Becas', function(data) {
+    $.get('https://172.16.7.10:5022/api/Becas', function(data) {
         currentBecas = data.sort((a, b) => b.id_beca - a.id_beca); // Ordenar por id_beca de forma descendente
 
         if (data.length) {
@@ -100,7 +100,7 @@ function getBecaByEstudianteId() {
         getBecas();
         return;
     }
-    $.get('http://localhost:5022/api/Becas/Estudiante/' + id, function(data) {
+    $.get('https://172.16.7.10:5022/api/Becas/Estudiante/' + id, function(data) {
         currentBecas = data.sort((a, b) => b.id_beca - a.id_beca); // Ordenar por id_beca de forma descendente
         displayBecas(1);
     }).fail(function() {
@@ -119,7 +119,7 @@ function addBeca() {
         return;
     }
 
-    $.post('http://localhost:5022/api/Becas', {
+    $.post('https://172.16.7.10:5022/api/Becas', {
         id_estudiante: id_estudiante,
         tipo_beca: tipo_beca,
         monto: monto,
@@ -131,7 +131,7 @@ function addBeca() {
 }
 
 function loadBecaForUpdate(id) {
-    $.get('http://localhost:5022/api/Becas/' + id, function(data) {
+    $.get('https://172.16.7.10:5022/api/Becas/' + id, function(data) {
         if (data) {
             $('#updateIdBeca').val(data.id_beca);
             $('#updateIdEstudiante').val(data.id_estudiante);
@@ -160,7 +160,7 @@ function updateBeca() {
     }
 
     $.ajax({
-        url: 'http://localhost:5022/api/Becas/' + id_beca,
+        url: 'https://172.16.7.10:5022/api/Becas/' + id_beca,
         method: 'PUT',
         data: {
             id_beca: id_beca,
@@ -193,7 +193,7 @@ function deleteBeca() {
     }
 
     $.ajax({
-        url: 'http://localhost:5022/api/Becas/' + id_beca,
+        url: 'https://172.16.7.10:5022/api/Becas/' + id_beca,
         method: 'DELETE',
         success: function(result) {
             alert('Beca eliminada con éxito');

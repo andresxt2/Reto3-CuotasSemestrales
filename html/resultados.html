@@ -137,7 +137,7 @@
         $(document).ready(function() {
             // Obtener datos para el gráfico de estado de pagos
             $.ajax({
-                url: 'http://localhost:5022/api/Resultados/ReporteEstadoPagos',
+                url: 'https://172.16.7.10:5022/api/Resultados/ReporteEstadoPagos',
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -185,7 +185,7 @@
 
             // Obtener datos para el gráfico de morosidad
             $.ajax({
-                url: 'http://localhost:5022/api/Resultados/ReporteMorosidad',
+                url: 'https://172.16.7.10:5022/api/Resultados/ReporteMorosidad',
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {

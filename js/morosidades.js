@@ -13,7 +13,7 @@ var currentPage = 1;
 var rowsPerPage = 20;
 
 function loadEstudiantes(section) {
-    $.get('http://localhost:5022/api/Estudiantes', function(data) {
+    $.get('https://172.16.7.10:5022/api/Estudiantes', function(data) {
         currentEstudiantes = data;
         var select = section === 'add' ? $('#addIdEstudiante') : $('#updateIdEstudiante');
         select.empty();
@@ -32,7 +32,7 @@ function displayMorosidades(page) {
 
     paginatedItems.forEach(function(morosidad) {
         // Hacer la llamada a la API para obtener el nombre del estudiante
-        $.get('http://localhost:5022/api/Estudiantes/' + morosidad.id_estudiante, function(estudiante) {
+        $.get('https://172.16.7.10:5022/api/Estudiantes/' + morosidad.id_estudiante, function(estudiante) {
             var nombreCompleto = estudiante.nombres + ' ' + estudiante.apellidos;
 
             $('#morosidadList').append(`
@@ -82,7 +82,7 @@ function setupPagination(totalItems, currentPage) {
 }
 
 function getMorosidades() {
-    $.get('http://localhost:5022/api/Morosidades', function(data) {
+    $.get('https://172.16.7.10:5022/api/Morosidades', function(data) {
         currentMorosidades = data.sort((a, b) => b.id_morosidad - a.id_morosidad); // Ordenar por id_morosidad
 
         if (data.length) {
@@ -100,7 +100,7 @@ function getMorosidadByEstudianteId() {
         getMorosidades();
         return;
     }
-    $.get('http://localhost:5022/api/Morosidades/Estudiante/' + encodeURIComponent(id), function(data) {
+    $.get('https://172.16.7.10:5022/api/Morosidades/Estudiante/' + encodeURIComponent(id), function(data) {
         currentMorosidades = data.sort((a, b) => b.id_morosidad - a.id_morosidad); // Ordenar por id_morosidad de forma descendente
         displayMorosidades(1);
     }).fail(function() {
@@ -119,7 +119,7 @@ function addMorosidad() {
         return;
     }
 
-    $.post('http://localhost:5022/api/Morosidades', {
+    $.post('https://172.16.7.10:5022/api/Morosidades', {
         id_estudiante: id_estudiante,
         semestre: semestre,
         dias_retraso: dias_retraso,
@@ -131,7 +131,7 @@ function addMorosidad() {
 }
 
 function loadMorosidadForUpdate(id) {
-    $.get('http://localhost:5022/api/Morosidades/' + id, function(data) {
+    $.get('https://172.16.7.10:5022/api/Morosidades/' + id, function(data) {
         if (data) {
             $('#updateIdMorosidad').val(data.id_morosidad);
             $('#updateIdEstudiante').val(data.id_estudiante);
@@ -160,7 +160,7 @@ function updateMorosidad() {
     }
 
     $.ajax({
-        url: 'http://localhost:5022/api/Morosidades/' + id_morosidad,
+        url: 'https://172.16.7.10:5022/api/Morosidades/' + id_morosidad,
         method: 'PUT',
         data: {
             id_morosidad: id_morosidad,
@@ -190,7 +190,7 @@ function deleteMorosidad() {
     }
 
     $.ajax({
-        url: 'http://localhost:5022/api/Morosidades/' + id_morosidad,
+        url: 'https://172.16.7.10:5022/api/Morosidades/' + id_morosidad,
         method: 'DELETE',
         success: function(result) {
             alert('Morosidad eliminada con éxito');

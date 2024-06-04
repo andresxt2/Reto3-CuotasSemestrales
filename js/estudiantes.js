@@ -46,7 +46,7 @@ function setupPagination(totalItems, currentPage) {
 }
 
 function getStudents() {
-    $.get('http://localhost:5022/api/Estudiantes', function(data) {
+    $.get('https://172.16.7.10:5022/api/Estudiantes', function(data) {
         currentStudents = data;
 
         if (data.length) {
@@ -65,7 +65,7 @@ function getStudentById() {
         return;
     }
 
-    $.get('http://localhost:5022/api/Estudiantes/' + encodeURIComponent(id), function(data) {
+    $.get('https://172.16.7.10:5022/api/Estudiantes/' + encodeURIComponent(id), function(data) {
         currentStudents = [data];
         displayStudents(1);
     }).fail(function() {
@@ -86,7 +86,7 @@ function addStudent() {
         return;
     }
 
-    $.post('http://localhost:5022/api/Estudiantes', {
+    $.post('https://172.16.7.10:5022/api/Estudiantes', {
         id_estudiante: id_estudiante,
         nombres: nombres,
         apellidos: apellidos,
@@ -100,7 +100,7 @@ function addStudent() {
 }
 
 function loadStudentForUpdate(id) {
-    $.get('http://localhost:5022/api/Estudiantes/' + encodeURIComponent(id), function(data) {
+    $.get('https://172.16.7.10:5022/api/Estudiantes/' + encodeURIComponent(id), function(data) {
         if (data) {
             $('#updateId').val(data.id_estudiante);
             $('#updateNombres').val(data.nombres);
@@ -131,7 +131,7 @@ function updateStudent() {
     }
 
     $.ajax({
-        url: 'http://localhost:5022/api/Estudiantes/' + encodeURIComponent(id_estudiante),
+        url: 'https://172.16.7.10:5022/api/Estudiantes/' + encodeURIComponent(id_estudiante),
         method: 'PUT',
         data: {
             id_estudiante: id_estudiante,
@@ -165,7 +165,7 @@ function deleteStudent() {
     }
 
     $.ajax({
-        url: 'http://localhost:5022/api/Estudiantes/' + encodeURIComponent(id_estudiante),
+        url: 'https://172.16.7.10:5022/api/Estudiantes/' + encodeURIComponent(id_estudiante),
         method: 'DELETE',
         success: function(result) {
             alert('Estudiante eliminado con éxito');

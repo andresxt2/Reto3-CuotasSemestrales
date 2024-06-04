@@ -13,7 +13,7 @@ var currentPage = 1;
 var rowsPerPage = 20;
 
 function loadEstudiantes(section) {
-    $.get('http://localhost:5022/api/Estudiantes', function(data) {
+    $.get('https://172.16.7.10:5022/api/Estudiantes', function(data) {
         currentEstudiantes = data;
         var select = section === 'add' ? $('#addIdEstudiante') : $('#updateIdEstudiante');
         select.empty();
@@ -32,7 +32,7 @@ function displayPagos(page) {
 
     paginatedItems.forEach(function(pago) {
         // Hacer la llamada a la API para obtener el nombre del estudiante
-        $.get('http://localhost:5022/api/Estudiantes/' + pago.id_estudiante, function(estudiante) {
+        $.get('https://172.16.7.10:5022/api/Estudiantes/' + pago.id_estudiante, function(estudiante) {
             var nombreCompleto = estudiante.nombres + ' ' + estudiante.apellidos;
 
             $('#pagoList').append(`
@@ -84,7 +84,7 @@ function setupPagination(totalItems, currentPage) {
 }
 
 function getPagos() {
-    $.get('http://localhost:5022/api/Pagos', function(data) {
+    $.get('https://172.16.7.10:5022/api/Pagos', function(data) {
         currentPagos = data.sort((a, b) => b.id_pago - a.id_pago); // Ordenar por id_pago de forma descendente
 
         if (data.length) {
@@ -102,7 +102,7 @@ function getPagoByEstudianteId() {
         getPagos();
         return;
     }
-    $.get('http://localhost:5022/api/Pagos/Estudiante/' + encodeURIComponent(id), function(data) {
+    $.get('https://172.16.7.10:5022/api/Pagos/Estudiante/' + encodeURIComponent(id), function(data) {
         currentPagos = data.sort((a, b) => b.id_pago - a.id_pago); // Ordenar por id_pago de forma descendente
         displayPagos(1);
     }).fail(function() {
@@ -122,7 +122,7 @@ function addPago() {
         return;
     }
 
-    $.post('http://localhost:5022/api/Pagos', {
+    $.post('https://172.16.7.10:5022/api/Pagos', {
         id_estudiante: id_estudiante,
         fecha_pago: fecha_pago,
         saldo: saldo,
@@ -135,7 +135,7 @@ function addPago() {
 }
 
 function loadPagoForUpdate(id) {
-    $.get('http://localhost:5022/api/Pagos/' + id, function(data) {
+    $.get('https://172.16.7.10:5022/api/Pagos/' + id, function(data) {
         if (data) {
             $('#updateIdPago').val(data.id_pago);
             $('#updateIdEstudiante').val(data.id_estudiante);
@@ -166,7 +166,7 @@ function updatePago() {
     }
 
     $.ajax({
-        url: 'http://localhost:5022/api/Pagos/' + id_pago,
+        url: 'https://172.16.7.10:5022/api/Pagos/' + id_pago,
         method: 'PUT',
         data: {
             id_pago: id_pago,
@@ -200,7 +200,7 @@ function deletePago() {
     }
 
     $.ajax({
-        url: 'http://localhost:5022/api/Pagos/' + id_pago,
+        url: 'https://172.16.7.10:5022/api/Pagos/' + id_pago,
         method: 'DELETE',
         success: function(result) {
             alert('Pago eliminado con éxito');
